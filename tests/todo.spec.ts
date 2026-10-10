@@ -28,4 +28,16 @@ test.describe('TodoMVC', () => {
 
     await expect(todoItem).toHaveClass(/completed/);
   });
+
+  test('should clear completed todo items', async ({ page }) => {
+    const todoInput = page.getByPlaceholder('What needs to be done?');
+    await todoInput.fill('Remove this completed task');
+    await todoInput.press('Enter');
+
+    const todoItem = page.locator('.todo-list li').filter({ hasText: 'Remove this completed task' });
+    await todoItem.getByRole('checkbox').check();
+    await page.getByRole('button', { name: 'Clear completed' }).click();
+
+    await expect(todoItem).toHaveCount(0);
+  });
 });
