@@ -14,7 +14,10 @@ test.describe('TodoMVC', () => {
     await todoInput.fill('Learn Playwright');
     await todoInput.press('Enter');
 
-    await expect(page.getByText('Learn Playwright')).toBeVisible();
+   const todoItem = page.locator('.todo-list li')
+  .filter({ hasText: 'Learn Playwright' });
+
+await expect(todoItem).toBeVisible();
     await expect(todoInput).toBeEmpty();
   });
 
